@@ -1,9 +1,11 @@
 package config
 
 import (
-	"github.com/caarlos0/env/v8"
 	"log"
 	"sync"
+
+	"github.com/caarlos0/env/v8"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -24,6 +26,7 @@ var once sync.Once
 
 // Read and parse the configuration file
 func read() *Config {
+	godotenv.Load(".env")
 	config := Config{}
 	if err := env.Parse(&config); err != nil {
 		log.Fatal(err)

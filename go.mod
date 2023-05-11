@@ -17,6 +17,7 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/idoubi/goutils v1.3.2 // indirect
 	github.com/idoubi/goz v1.4.4 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/launchdarkly/eventsource v1.7.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
