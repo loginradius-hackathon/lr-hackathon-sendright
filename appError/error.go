@@ -1,6 +1,7 @@
 package appError
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"net/http"
 )
 
@@ -14,6 +15,8 @@ type Response struct {
 type AppError struct {
 	InvalidClientId     *Response
 	InvalidClientSecret *Response
+	MalformedRequest    *Response
+	InternalServerError *Response
 }
 
 func NewAppError() *AppError {
@@ -26,6 +29,14 @@ func NewAppError() *AppError {
 			Message:        invalidClientSecret.Marshal(),
 			HTTPStatusCode: invalidClientSecret.StatusCode,
 		},
+		MalformedRequest: &Response{
+			Message:        malformedRequest.Marshal(),
+			HTTPStatusCode: malformedRequest.StatusCode,
+		},
+		InternalServerError: &Response{
+			Message:        internalServerError.Marshal(),
+			HTTPStatusCode: internalServerError.StatusCode,
+		},
 	}
 }
 
@@ -36,8 +47,9 @@ func (e *AppError) NewCustomError(msg string) *Response {
 	}
 }
 
-func (resp *Response) WriteToResponseWriter(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(resp.HTTPStatusCode)
-	_, _ = w.Write(resp.Message)
+func (resp *Response) WriteToResponseWriter(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Set("Content-Type", "application/json")
+	ctx.Response().SetStatusCode(resp.HTTPStatusCode)
+	_, _ = ctx.Write(resp.Message)
+	return nil
 }

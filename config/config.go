@@ -13,6 +13,8 @@ type Config struct {
 	ServiceAddress  string `env:"ServiceAddress" envDefault:"0.0.0.0:4000"`
 	MongoDbDataBase string `env:"MongoDbDataBase" envDefault:"sendright-dev"`
 	MongoDbConnStr  string `env:"MongoDbConnStr" envDefault:"mongodb://localhost:27017/?retryWrites=false&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000"`
+
+	OpenAISecret string `env:"OpenAISecret" envDefault:""`
 }
 
 // singleton instance of config

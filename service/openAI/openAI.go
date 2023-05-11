@@ -1,9 +1,7 @@
-package chatGpt
+package openAI
 
 import (
-	"fmt"
 	"github.com/chatgp/gpt3"
-	"log"
 	"time"
 )
 
@@ -11,20 +9,20 @@ type Service struct {
 	gptClient *gpt3.Client
 }
 
-func NewChatGptService(apiKey string) *Service {
+func NewOpenAIService(apiKey string) *Service {
 	gptClient, _ := gpt3.NewClient(&gpt3.Options{
 		ApiKey:  apiKey,
-		Timeout: 30 * time.Second,
+		Timeout: 60 * time.Second,
 		Debug:   true,
 	})
 	return &Service{gptClient: gptClient}
 }
 
-func (s *Service) Get() {
+func (s *Service) Get(prompt string) (*string, error) {
 	uri := "/v1/completions"
 	params := map[string]interface{}{
 		"model":       "text-davinci-003",
-		"prompt":      "say hello three times",
+		"prompt":      prompt,
 		"max_tokens":  2048,
 		"temperature": 0.9,
 		"n":           1,
@@ -32,10 +30,10 @@ func (s *Service) Get() {
 	}
 
 	res, err := s.gptClient.Post(uri, params)
-
 	if err != nil {
-		log.Fatalf("request api failed: %v", err)
+		return nil, err
 	}
 
-	fmt.Println(res.GetString("choices.0.text"))
+	resp := res.GetString("choices.0.text")
+	return &resp, nil
 }

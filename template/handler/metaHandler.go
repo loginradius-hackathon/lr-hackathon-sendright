@@ -13,7 +13,7 @@ type MetaHandler struct {
 	metaLogic  domain.MetaLogic
 }
 
-func NewMetaHandler(router fiber.Router, templateLogic domain.TemplateLogic, jsonWriter *utility.JsonWriter) {
+func NewMetaHandler(router fiber.Router, templateLogic domain.MetaLogic, jsonWriter *utility.JsonWriter) {
 	metaHandler := &MetaHandler{metaLogic: templateLogic, jsonWriter: jsonWriter}
 
 	// api/v1/meatdata

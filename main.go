@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"sendright/service/openAI"
 	"sendright/template/handler"
 	"sendright/template/logic"
 	"sendright/utility"
@@ -26,14 +27,14 @@ func main() {
 	app := fiber.New()
 	router := app.Group("api/v1")
 
-	templateRouter := router.Group("template")
 	metaRouter := router.Group("metadata")
-
 	metaLogic := logic.NewMetaLogic(appErrors)
-	templateLogic := logic.NewTemplateLogic(appErrors)
-
-	handler.NewTemplateHandler(templateRouter, templateLogic, jsonWriter)
 	handler.NewMetaHandler(metaRouter, metaLogic, jsonWriter)
+
+	openAIService := openAI.NewOpenAIService(config.OpenAISecret)
+	templateLogic := logic.NewTemplateLogic(openAIService, appErrors)
+	templateRouter := router.Group("template")
+	handler.NewTemplateHandler(templateRouter, templateLogic, appErrors, jsonWriter)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World 👋!")

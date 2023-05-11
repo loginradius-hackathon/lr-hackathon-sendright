@@ -25,6 +25,14 @@ var (
 		Meta:       ErrorSchemaMeta{Message: "Bad or missing Client Secret", Description: "Your request did not contain the correct Client Secret."},
 		StatusCode: http.StatusUnauthorized,
 	}
+	malformedRequest = ErrorSchema{
+		Meta:       ErrorSchemaMeta{Message: "Malformed Request", Description: "Validation failed for the request JSON data that you provided."},
+		StatusCode: http.StatusBadRequest,
+	}
+	internalServerError = ErrorSchema{
+		Meta:       ErrorSchemaMeta{Message: "Oops, something went, please try again.", Description: "Oops, something went wrong, please try again."},
+		StatusCode: http.StatusForbidden,
+	}
 )
 
 func (e *ErrorSchema) Marshal() []byte {
