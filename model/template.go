@@ -1,8 +1,8 @@
 package model
 
 type BuildTemplateRequest struct {
-	TemplateType string `json:"template_type"`
-
+	TemplateType    string  `json:"template_type"`
+	Quantity        *int    `json:"quantity,omitempty"`
 	IndustryContext *string `json:"industry_context,omitempty"`
 	SenderName      *string `json:"sender_name,omitempty"`
 	Language        *string `json:"language,omitempty"`

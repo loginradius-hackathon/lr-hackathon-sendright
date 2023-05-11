@@ -1,8 +1,9 @@
 package openAI
 
 import (
-	"github.com/chatgp/gpt3"
 	"time"
+
+	"github.com/chatgp/gpt3"
 )
 
 type Service struct {
