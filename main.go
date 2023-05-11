@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
-	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"sendright/template/handler"
 	"sendright/template/logic"
 	"sendright/utility"
 	"time"
+
+	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 
 	_appError "sendright/appError"
 	_config "sendright/config"
@@ -26,9 +27,13 @@ func main() {
 	router := app.Group("api/v1")
 
 	templateRouter := router.Group("template")
+	metaRouter := router.Group("metadata")
 
+	metaLogic := logic.NewMetaLogic(appErrors)
 	templateLogic := logic.NewTemplateLogic(appErrors)
+
 	handler.NewTemplateHandler(templateRouter, templateLogic, jsonWriter)
+	handler.NewMetaHandler(metaRouter, metaLogic, jsonWriter)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World 👋!")

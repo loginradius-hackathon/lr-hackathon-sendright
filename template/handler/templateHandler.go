@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"sendright/domain"
 	"sendright/utility"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type TemplateHandler struct {
