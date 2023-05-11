@@ -6,6 +6,7 @@ require (
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/chatgp/gpt3 v1.1.0
 	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/joho/godotenv v1.5.1
 	github.com/json-iterator/go v1.1.12
 	go.mongodb.org/mongo-driver v1.11.6
 )
@@ -17,7 +18,6 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/idoubi/goutils v1.3.2 // indirect
 	github.com/idoubi/goz v1.4.4 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/launchdarkly/eventsource v1.7.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
