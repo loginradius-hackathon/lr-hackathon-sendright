@@ -42,7 +42,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             whoami
-            container_name=console-api-$GITHUB_REF_TYPE
+            container_name=sendright-api-${{ github.ref_name }}
             echo "Creating env file -- "${{ secrets.APP_ENV_FILE }}
             [ ! -z "${{ secrets.OPEN_AI_SECRET }}" ] && echo -e "OpenAISecret=${{ secrets.OPEN_AI_SECRET }}" >${{ secrets.APP_ENV_FILE }}
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
