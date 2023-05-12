@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var BrTag = []byte("<br/>")
+
 type TemplateLogic struct {
 	appError      *appError.AppError
 	openAIService *openAI.Service
@@ -52,19 +54,20 @@ func (logic *TemplateLogic) BuildTemplate(request *model.BuildTemplateRequest) (
 	fileScanner.Split(bufio.ScanLines)
 
 	i := 0
-	emailSubject := ""
-	emailBody := ""
+	var emailSubject strings.Builder
+	var emailBody strings.Builder
 
 	for fileScanner.Scan() {
 		if i == 2 {
-			emailSubject += fileScanner.Text()
+			emailSubject.Write(fileScanner.Bytes())
 		} else if i > 3 {
-			emailBody += fileScanner.Text() + "<br/>"
+			emailBody.Write(fileScanner.Bytes())
+			emailBody.Write(BrTag)
 		}
 		i++
 	}
 
-	return &model.BuildTemplateResponse{ContentText: emailBody, Subject: emailSubject}, nil
+	return &model.BuildTemplateResponse{ContentText: emailBody.String(), Subject: emailSubject.String()}, nil
 }
 
 func NewTemplateLogic(openAIService *openAI.Service, appError *appError.AppError) domain.TemplateLogic {
