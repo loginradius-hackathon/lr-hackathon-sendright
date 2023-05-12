@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -25,6 +26,7 @@ func main() {
 	ConnectToMongo(config.MongoDbConnStr, config.MongoTimeout).Database(config.MongoDbDataBase)
 
 	app := fiber.New()
+	app.Use(cors.New())
 	router := app.Group("api/v1")
 
 	metaRouter := router.Group("metadata")
