@@ -31,7 +31,7 @@ func (logic *TemplateLogic) BuildTemplate(request *model.BuildTemplateRequest) (
 	}
 
 	if request.SenderName != nil && len(*request.SenderName) > 0 {
-		text += ", Reciever name " + *request.ReceiverName
+		text += ", Receiver name " + *request.ReceiverName
 	}
 
 	if request.Sentiment != nil && len(*request.Sentiment) > 0 {
@@ -39,7 +39,7 @@ func (logic *TemplateLogic) BuildTemplate(request *model.BuildTemplateRequest) (
 	}
 
 	if request.Prompt != nil && len(*request.Prompt) > 0 {
-		text += " and some additinal information -" + *request.Prompt
+		text += " and some additional information -" + *request.Prompt
 	}
 
 	content, err := logic.openAIService.Get(text)
@@ -58,8 +58,8 @@ func (logic *TemplateLogic) BuildTemplate(request *model.BuildTemplateRequest) (
 	for fileScanner.Scan() {
 		if i == 2 {
 			emailSubject += fileScanner.Text()
-		} else if i > 2 {
-			emailBody += fileScanner.Text() + "\n"
+		} else if i > 3 {
+			emailBody += fileScanner.Text() + "<br/>"
 		}
 		i++
 	}
