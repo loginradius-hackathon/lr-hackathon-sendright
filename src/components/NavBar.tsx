@@ -1,98 +1,24 @@
-import React, { useEffect } from "react";
-import { AiOutlineMenu } from "react-icons/ai";
-import { FiShoppingCart } from "react-icons/fi";
-import { BsChatLeft } from "react-icons/bs";
-import { RiNotification3Line } from "react-icons/ri";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import {AiOutlineBars} from "react-icons/ai"
-import { useStateContext } from "../contexts/ContextProvider";
-import {
-   Button,
-   Icon
-  } from 'semantic-ui-react'
-  
-// const avatar = require("../data/avatar.jpg");
+import Logo from '../assets/img/logo.svg'
 
-interface NavButtonProps {
-  title?: string;
-  customFunc?: any;
-  icon?: any;
-  color?: any;
-  dataColor?: any;
+const NavBar = () => {
+  return (
+    <>
+      <div className='w-full '>
+        <div className="h-16 bg-white border-b border-solid border-gray-300 px-6 flex text-base text-gray-700 items-center font-medium">
+          <div className="logo flex items-center gap-2 ">
+            <div>
+              <a href="/">
+                <img src={Logo} alt="EZ Resume" width="124" />
+              </a>
+            </div>
+          </div>
+          <div className="grow"></div>
+          <div className="h-full flex items-center gap-2">
+            <button className="bg-blue-700 py-1 px-4 text-white rounded-md h-10 flex items-center gap-2 font-normal transition hover:bg-blue-600"><svg viewBox="0 0 24 24" width="1em" height="1em" className="text-lg"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" fill="currentColor"></path></svg> Download</button></div>
+        </div>
+      </div>
+    </>
+  )
 }
-const NavButton: React.FC<NavButtonProps> = ({
-  title,
-  customFunc,
-  icon,
-  color,
-  dataColor,
-}) => {
-  return (
-    // <TooltipComponent content={title} position="BottomCenter">
-    //   <button
-    //     type="button"
-    //     onClick={customFunc}
-    //     style={{ color }}
-    //     className="relative text-xl rounded-full p-3 hover:bg-light-gray"
-    //   >
-    //     <span
-    //       style={{ background: dataColor }}
-    //       className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
-    //     />
 
-    //     {icon}
-    //   </button>
-    // </TooltipComponent>
-    <Button onClick={customFunc} className="sidebar-navbutton"> <span
-           style={{ background: dataColor }}
-           className="icon"
-         />{icon}</Button>
-  );
-};
-const Navbar = () => {
-  const {
-    activeMenu,
-    setActiveMenu,
-    isClicked,
-    setIsClicked,
-    handleClick,
-    screenSize,
-    setScreenSize,
-    currentColor,
-  } = useStateContext();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (screenSize < 900) {
-      setActiveMenu(false);
-    } else {
-      setActiveMenu(true);
-    }
-  }, [screenSize]);
-  return (
-    <div className="navbar">
-      <NavButton
-        title="menu"
-        customFunc={() => {
-          setActiveMenu((prevMenu: any) => {
-            return !prevMenu;
-          });
-        }}
-        color={currentColor}
-        icon={<AiOutlineBars/>}
-      />
-    </div>
-  );
-};
-
-export default Navbar;
+export default NavBar
