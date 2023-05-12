@@ -27,3 +27,17 @@ jobs:
         run: |
           docker tag sendright:latest ${{ env.DOCKER_USERNAME }}/sendright:latest
           docker push ${{ env.DOCKER_USERNAME }}/sendright:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOSTNAME }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: whoami
