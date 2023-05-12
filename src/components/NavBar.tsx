@@ -1,6 +1,6 @@
 import Logo from '../assets/img/logo.svg'
 
-const NavBar = () => {
+const NavBar = ({downloadFunc}) => {
   return (
     <>
       <div className='w-full '>
@@ -14,7 +14,7 @@ const NavBar = () => {
           </div>
           <div className="grow"></div>
           <div className="h-full flex items-center gap-2">
-            <button className="bg-blue-700 py-1 px-4 text-white rounded-md h-10 flex items-center gap-2 font-normal transition hover:bg-blue-600"><svg viewBox="0 0 24 24" width="1em" height="1em" className="text-lg"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" fill="currentColor"></path></svg> Download</button></div>
+            <button className="bg-blue-700 py-1 px-4 text-white rounded-md h-10 flex items-center gap-2 font-normal transition hover:bg-blue-600" onClick={downloadFunc}><svg viewBox="0 0 24 24" width="1em" height="1em" className="text-lg"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" fill="currentColor"></path></svg> Download</button></div>
         </div>
       </div>
     </>

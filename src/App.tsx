@@ -1,26 +1,69 @@
-import React, { useContext, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { FiSettings } from "react-icons/fi";
-import { Button } from 'semantic-ui-react'
-import { Navbar, Footer, Sidebar } from "./components";
+import { useEffect, useState } from "react";
+
+import { Navbar} from "./components";
 
 import "./App.css";
-import emailLogo from './assets/img/emial_logo.svg'
-import footerLogo from './assets/img/emial_logo_footer.svg'
-import { useStateContext } from "./contexts/ContextProvider";
-import Generate from "./pages/Generate";
-import Branding from "./pages/Branding";
-import Settings from "./pages/Settings";
-import ThemeSettings from "./components/ThemeSettings";
-const App = () => {
-  const {
-    activeMenu,
-    themeSettings,
-    setThemeSettings,
-    currentColor,
-    currentMode,
-  } = useStateContext();
 
+import axios from 'axios'
+const App = () => {
+
+  const baseURL = "https://sendright.lrhackathon.com"
+
+  useEffect(() => {
+
+    axios.get(`${baseURL}/api/v1/metadata`).then((response: any) => {
+
+      console.log(response)
+      setTemplateTypeOptions(response.data.email_types)
+      setLanguageOptions(response.data.languages)
+      setIndustryOptions(response.data.industries)
+      // setMetadataLoading(!response.data.success)
+    }).catch((err) => { console.log(err) })
+
+    
+  }, [])
+
+  const fetchEmailContent = () => {
+    setContentLoading(true)
+    axios.post(`${baseURL}/api/v1/template/build`, {
+
+      template_type: templateText.templateType,
+      industry_context: templateText.industry,
+      language: templateText.language,
+      sentiment: templateText.sentiment,
+      prompt: templateText.prompt,
+      sender_name: templateText.senderName,
+      receiver_name: templateText.recipientName
+
+    }).then((response: any) => {
+      console.log(response.data.content_text)
+      if (response.data.content_text) {
+        setContentLoading(false)
+      }
+      // console.log(response.data.content_text.includes('\n'))
+      // let result=response.data.content_text.replaceAll('\n', '"<br/>"')
+      setTemplateText({ ...templateText, content: response.data.content_text})
+      
+    })
+  }
+
+  const [templateText, setTemplateText] = useState({ senderName: "ABC Company", recipientName: "recipient", brandColor: "", industry: "", templateType: "", language: "", brandLogoURL: "https://apidocs.lrcontent.com/images/loginradius-logo--horizontal-full-colour-on-white_196175e99f5cec6b654.20520541.png", sentiment: "", prompt: "", content: "" })
+
+  const [industryOptions, setIndustryOptions] = useState([""])
+  const [templateTypeOptions, setTemplateTypeOptions] = useState([""])
+  const [languageOptions, setLanguageOptions] = useState([""])
+
+  // const [metadataLoading, setMetadataLoading] = useState(true)
+  const [contentLoading, setContentLoading] = useState(false)
+  const downloadTxtFile = () => {
+    console.log(templateText.content)
+    // const element = document.createElement("a");
+    // const file = new Blob([document.getElementById('downloadable_template').innerHTML], { type: 'text/plain' });
+    // element.href = URL.createObjectURL(file);
+    // element.download = "myFile.txt";
+    // document.body.appendChild(element); // Required for this to work in FireFox
+    // element.click();
+  }
   return (
     // <div className={`${currentMode === "Dark" ? "dark" : "light"}`}>
     //   <BrowserRouter>
@@ -60,9 +103,10 @@ const App = () => {
     //     </div>
     //   </BrowserRouter>
     // </div>
-
+   
     <div className="flex flex-col h-screen ">
-      <Navbar />
+       
+      <Navbar downloadFunc={downloadTxtFile} />
       <div className="main-container flex w-full md:h-screen h-auto flex-col md:flex-row">
         <div className=" flex md:w-3/12 w-full overflow-y-auto md:border-r md:border-solid md:border-gray-300 bg-white md:max-h-[91vh] h-auto p-6">
           <div className="d-flex flex-col w-full">
@@ -72,36 +116,115 @@ const App = () => {
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
               <label htmlFor="name" className="text-sm text-gray-700">Sender name</label>
-              <input type="text" id="name" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" placeholder="Sender name" data-form-type="name" />
+              <input type="text" id="name" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="senderName" placeholder="Sender name" data-form-type="name" value={templateText.senderName}
+                onChange={(e) => {
+                  setTemplateText({
+                    ...templateText,
+                    [e.target.name]: e.target.value,
+                  });
+                }} />
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
               <label htmlFor="rname" className="text-sm text-gray-700">Recipient name</label>
-              <input type="text" id="rname" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" placeholder="Recipient name" data-form-type="name" />
+              <input type="text" id="rname" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="recipientName" placeholder="Recipient name" data-form-type="name" value={templateText.recipientName}
+                onChange={(e) => {
+                  setTemplateText({
+                    ...templateText,
+                    [e.target.name]: e.target.value,
+                  });
+                }} />
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
               <label htmlFor="" className="text-sm text-gray-700">Industry</label>
-              <select className="py-2 pl-[11px] pr-4 rounded-md border border-solid border-gray-400 text-sm" placeholder="Network" data-form-type="other">
-                <option value="" >Choose Industry</option>
-                <option value="Industry1">Industry 1</option>
-                <option value="Industry2">Industry 2</option>
+              <select className="py-2 pl-[11px] pr-4 rounded-md border border-solid border-gray-400 text-sm" name="industry" placeholder="Industry" data-form-type="other" onChange={(e) => {
+
+                setTemplateText({ ...templateText, [e.target.name]: e.target.value });
+              }}
+                value={templateText.industry}>
+                {industryOptions.map((industry: any) => (
+                  <option key={industry} value={industry}>
+                    {industry}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
-              <label htmlFor="" className="text-sm text-gray-700">Template </label>
-              <select className="py-2 pl-[11px] pr-4 rounded-md border border-solid border-gray-400 text-sm" placeholder="Network" data-form-type="other">
-                <option value="" >Choose Template </option>
-                <option value="Template1 ">Template  1</option>
-                <option value="Template2 ">Template  2</option>
+              <label htmlFor="" className="text-sm text-gray-700">Email Type </label>
+              <select className="py-2 pl-[11px] pr-4 rounded-md border border-solid border-gray-400 text-sm" name="templateType" placeholder="Email Type" data-form-type="other" onChange={(e) => {
+
+                setTemplateText({ ...templateText, [e.target.name]: e.target.value });
+              }}
+                value={templateText.templateType}
+              >
+                {templateTypeOptions.map((templateType: any) => (
+                  <option key={templateType} value={templateType}>
+                    {templateType}
+                  </option>
+                ))}
               </select>
+            </div>
+            <div className="form-group flex flex-col gap-1 mb-4">
+              <label htmlFor="rname" className="text-sm text-gray-700">Additional Information</label> 
+              <input type="text" id="rname" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="prompt" placeholder="Additional Information" data-form-type="name" value={templateText.prompt}
+                onChange={(e) => {
+                  setTemplateText({
+                    ...templateText,
+                    [e.target.name]: e.target.value,
+                  });
+                }} />
+            </div>
+            <div className="form-group flex flex-col gap-1 mb-4">
+              <label htmlFor="rname" className="text-sm text-gray-700">Delivery Tone</label>
+              <input type="text" id="rname" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="sentiment" placeholder="DeliveryTone" data-form-type="name" value={templateText.sentiment}
+                onChange={(e) => {
+                  setTemplateText({
+                    ...templateText,
+                    [e.target.name]: e.target.value,
+                  });
+                }} />
+            </div>
+            <div className="form-group flex flex-col gap-1 mb-4">
+              <label htmlFor="" className="text-sm text-gray-700">Language </label>
+              <select className="py-2 pl-[11px] pr-4 rounded-md border border-solid border-gray-400 text-sm" name="language" placeholder="Language" data-form-type="other" onChange={(e) => {
+
+                setTemplateText({ ...templateText, [e.target.name]: e.target.value });
+              }}
+                value={templateText.language}
+              >
+                {languageOptions.map((language: any) => (
+                  <option key={language} value={language}>
+                    {language}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group flex flex-col gap-1 mb-4">
+              <label htmlFor="name" className="text-sm text-gray-700">Brand Logo URL</label>
+              <input type="text" id="name" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="brandLogoURL" placeholder="Brand Logo URL" data-form-type="name" value={templateText.brandLogoURL}
+                onChange={(e) => {
+                  setTemplateText({
+                    ...templateText,
+                    [e.target.name]: e.target.value,
+                  });
+                }} />
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
               <label htmlFor="name" className="text-sm text-gray-700">Brand color</label>
               <div className="px-[14px] py-1 rounded-md border border-solid border-gray-400 text-sm">
-                <input type="color" className="bg-transparent" value="#0867D0" />
+                <input type="color" className="bg-transparent" name="brandColor" value={templateText.brandColor}
+                  onChange={(e) => {
+                    setTemplateText({
+                      ...templateText,
+                      [e.target.name]: e.target.value,
+
+                    });
+                  }}
+                />
+                <span>{templateText.brandColor}</span>
               </div>
             </div>
             <div className="d-flex items-end w-full">
-              <button className="bg-blue-700 py-1 px-4 text-white rounded-md h-10 flex items-center gap-2 font-normal transition hover:bg-blue-600 ml-auto">Genrate</button>
+              <button className="bg-blue-700 py-1 px-4 text-white rounded-md h-10 flex items-center gap-2 font-normal transition hover:bg-blue-600 ml-auto" onClick={fetchEmailContent}>Generate</button>
             </div>
           </div>
         </div>
@@ -117,7 +240,7 @@ const App = () => {
               </select>
             </div>
           </div>
-          <div className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
+          <div id='downloadable_template' className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
             <div style={{ backgroundColor: "rgb(249 250 251)", padding: 24 }}>
               <center style={{ maxWidth: 600, marginInline: "auto" }}>
                 <table
@@ -136,214 +259,224 @@ const App = () => {
                       <td>
                         <div style={{ textAlign: "center", padding: "32px 24px 32px" }}>
                           <img
-                            src={emailLogo}
+                            src={templateText.brandLogoURL}
                             style={{ display: "block", marginInline: "auto" }}
                             alt="logo"
                             title="logo"
+                            width={200}
+
                           />
                         </div>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <b
-                          style={{
-                            color: "#333333",
-                            fontSize: 16,
-                            fontWeight: 600,
-                            padding: "0 24px",
-                            margin: "0 0 24px 0",
-                            display: "block"
-                          }}
-                        >
-                          Dear Hitesh,
-                        </b>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p
-                          style={{
-                            color: "#4F4F4F",
-                            fontSize: 15,
-                            padding: "0 24px",
-                            lineHeight: "1.5",
-                            margin: "0 0 32px 0"
-                          }}
-                        >
-                          Thank you for placing your order with SendRIght! We're excited to
-                          let you know that your order has been confirmed and is being
-                          processed for delivery.
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b
-                          style={{
-                            color: "#333333",
-                            fontSize: 16,
-                            fontWeight: 600,
-                            padding: "0 24px",
-                            lineHeight: "1.5",
-                            display: "block",
-                            margin: "0 0 12px 0"
-                          }}
-                        >
-                          Here are the details of your order:
-                        </b>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div style={{ padding: "0 24px", marginBottom: 32 }}>
-                          <table
-                            border={0}
-                            cellSpacing={0}
-                            cellPadding={0}
+                    {templateText.content === "" ? contentLoading ? <tr><td><div className="text-center">
+                      <div role="status">
+                        <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                          <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                        </svg>
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    </div></td></tr> : <>
+                      <tr>
+                        <td>
+                          <b
                             style={{
-                              borderCollapse: "collapse",
-                              fontSize: 15,
-                              lineHeight: "1.5"
+                              color: "#333333",
+                              fontSize: 16,
+                              fontWeight: 600,
+                              padding: "0 24px",
+                              margin: "0 0 24px 0",
+                              display: "block"
                             }}
                           >
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <b
-                                    style={{
-                                      color: "#4F4F4F",
-                                      fontWeight: 600,
-                                      margin: "0 16px 0 0"
-                                    }}
-                                  >
-                                    Order Number:
-                                  </b>
-                                </td>
-                                <td>
-                                  <p style={{ margin: "0 0 4px 0" }}>12abcd34567890</p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <b
-                                    style={{
-                                      color: "#4F4F4F",
-                                      fontWeight: 600,
-                                      margin: "0 16px 0 0"
-                                    }}
-                                  >
-                                    Order Date:
-                                  </b>
-                                </td>
-                                <td>
-                                  <p style={{ margin: "0 0 4px 0" }}>11/05/2023</p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <b
-                                    style={{
-                                      color: "#4F4F4F",
-                                      fontWeight: 600,
-                                      margin: "0 16px 0 0"
-                                    }}
-                                  >
-                                    Delivery Date:
-                                  </b>
-                                </td>
-                                <td>
-                                  <p style={{ margin: "0 0 4px 0" }}>15/05/2023</p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <b
-                                    style={{
-                                      color: "#4F4F4F",
-                                      fontWeight: 600,
-                                      margin: "0 16px 0 0"
-                                    }}
-                                  >
-                                    Delivery Address:
-                                  </b>
-                                </td>
-                                <td>
-                                  <p style={{ margin: 0 }}>A-102, Ajmer Road, Jaipur</p>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p
-                          style={{
-                            color: "#4F4F4F",
-                            fontSize: 15,
-                            padding: "0 24px",
-                            lineHeight: "1.5",
-                            margin: "0 0 32px 0"
-                          }}
-                        >
-                          If you have any questions or concerns about your order, please
-                          don't hesitate to reach out to our customer service team. You can
-                          reply to this email or contact us at{" "}
-                          <a href="tel:+91 1234567890" className="text-blue-700">+91 1234567890</a>.
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p
-                          style={{
-                            color: "#4F4F4F",
-                            fontSize: 15,
-                            padding: "0 24px",
-                            lineHeight: "1.5",
-                            margin: "0 0 32px 0"
-                          }}
-                        >
-                          Thank you for choosing SendRight for your purchase. We appreciate
-                          your business and hope you enjoy your order!
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div style={{ padding: "0 24px 32px" }}>
-                          <table
-                            border={0}
-                            cellSpacing={0}
-                            cellPadding={0}
-                            style={{ borderCollapse: "collapse", lineHeight: "1.5" }}
+                            {templateText.recipientName ? `Hi ${templateText.recipientName}` : ''}
+                          </b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p
+                            style={{
+                              color: "#4F4F4F",
+                              fontSize: 15,
+                              padding: "0 24px",
+                              lineHeight: "1.5",
+                              margin: "0 0 32px 0"
+                            }}
                           >
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <b style={{ color: "#333333", fontWeight: 600 }}>
-                                    Best regards,
-                                  </b>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <p style={{ fontSize: 15, margin: 0 }}>Mehul Sharma</p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <p style={{ fontSize: 15, margin: 0 }}>SendRight</p>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
+                            Thank you for placing your order with SendRIght! We're excited to
+                            let you know that your order has been confirmed and is being
+                            processed for delivery.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <b
+                            style={{
+                              color: "#333333",
+                              fontSize: 16,
+                              fontWeight: 600,
+                              padding: "0 24px",
+                              lineHeight: "1.5",
+                              display: "block",
+                              margin: "0 0 12px 0"
+                            }}
+                          >
+                            Here are the details of your order:
+                          </b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div style={{ padding: "0 24px", marginBottom: 32 }}>
+                            <table
+                              border={0}
+                              cellSpacing={0}
+                              cellPadding={0}
+                              style={{
+                                borderCollapse: "collapse",
+                                fontSize: 15,
+                                lineHeight: "1.5"
+                              }}
+                            >
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <b
+                                      style={{
+                                        color: "#4F4F4F",
+                                        fontWeight: 600,
+                                        margin: "0 16px 0 0"
+                                      }}
+                                    >
+                                      Order Number:
+                                    </b>
+                                  </td>
+                                  <td>
+                                    <p style={{ margin: "0 0 4px 0" }}>12abcd34567890</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <b
+                                      style={{
+                                        color: "#4F4F4F",
+                                        fontWeight: 600,
+                                        margin: "0 16px 0 0"
+                                      }}
+                                    >
+                                      Order Date:
+                                    </b>
+                                  </td>
+                                  <td>
+                                    <p style={{ margin: "0 0 4px 0" }}>11/05/2023</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <b
+                                      style={{
+                                        color: "#4F4F4F",
+                                        fontWeight: 600,
+                                        margin: "0 16px 0 0"
+                                      }}
+                                    >
+                                      Delivery Date:
+                                    </b>
+                                  </td>
+                                  <td>
+                                    <p style={{ margin: "0 0 4px 0" }}>15/05/2023</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <b
+                                      style={{
+                                        color: "#4F4F4F",
+                                        fontWeight: 600,
+                                        margin: "0 16px 0 0"
+                                      }}
+                                    >
+                                      Delivery Address:
+                                    </b>
+                                  </td>
+                                  <td>
+                                    <p style={{ margin: 0 }}>A-102, Ajmer Road, Jaipur</p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p
+                            style={{
+                              color: "#4F4F4F",
+                              fontSize: 15,
+                              padding: "0 24px",
+                              lineHeight: "1.5",
+                              margin: "0 0 32px 0"
+                            }}
+                          >
+                            If you have any questions or concerns about your order, please
+                            don't hesitate to reach out to our customer service team. You can
+                            reply to this email or contact us at{" "}
+                            <a href="tel:+91 1234567890" className="text-blue-700">+91 1234567890</a>.
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p
+                            style={{
+                              color: "#4F4F4F",
+                              fontSize: 15,
+                              padding: "0 24px",
+                              lineHeight: "1.5",
+                              margin: "0 0 32px 0"
+                            }}
+                          >
+                            Thank you for choosing SendRight for your purchase. We appreciate
+                            your business and hope you enjoy your order!
+                          </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div style={{ padding: "0 24px 32px" }}>
+                            <table
+                              border={0}
+                              cellSpacing={0}
+                              cellPadding={0}
+                              style={{ borderCollapse: "collapse", lineHeight: "1.5" }}
+                            >
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <b style={{ color: "#333333", fontWeight: 600 }}>
+                                      {templateText.senderName ?
+                                        "Best Regards," : ""}
+                                    </b>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <p style={{ fontSize: 15, margin: 0 }}>{templateText.senderName ?
+                                      `${templateText.senderName}` : ""}</p>
+                                  </td>
+                                </tr>
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </> : <tr><td><p style={{whiteSpace: "pre-line",padding: "0 24px 32px" }}>{`${templateText.content}`}</p></td></tr>}
+                    {/* <tr>
                       <td>
                         <div
                           style={{
@@ -383,13 +516,14 @@ const App = () => {
                                           <td>
                                             <a href="#">
                                               <img
-                                                src={footerLogo}
+                                                src={templateText.brandLogoURL}
                                                 style={{
                                                   display: "block",
                                                   marginInlineEnd: "auto"
                                                 }}
                                                 alt="logo"
                                                 title="logo"
+                                                width={200}
                                               />
                                             </a>
                                           </td>
@@ -524,7 +658,7 @@ const App = () => {
                           </table>
                         </div>
                       </td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                 </table>
               </center>
