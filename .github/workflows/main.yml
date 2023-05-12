@@ -29,7 +29,7 @@ jobs:
           docker push ${{ env.DOCKER_USERNAME }}/sendright:latest
 
   deploy:
-    needs: build
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
