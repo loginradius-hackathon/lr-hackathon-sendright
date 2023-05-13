@@ -7,7 +7,11 @@ $white: #fff;
 $base: 16px;
 $bg-light: #f2f2f2;
 $space-md: $base + ($base / 2);
-
+*,
+:before,
+:after {
+    box-sizing: border-box;
+}
 body {
     margin: 0;
     padding: 0;
@@ -206,7 +210,7 @@ section {
             z-index: 2;
             color: $white;
             font-size: 40px;
-            width: 768px;
+            width: 1024px;
             margin-inline: auto;
             text-align: center;
         }
@@ -232,6 +236,7 @@ footer {
     .footer-top {
         border-bottom: 1px solid #bdbdbd;
         padding-bottom: 32px;
+
         ul {
             display: flex;
             gap: 16px;
@@ -261,6 +266,13 @@ footer {
         justify-content: space-between;
         color: #4f4f4f;
         font-size: 15px;
+        .logo-links p {
+            display: flex;
+            gap: 8px;
+            img {
+                max-height: 20px;
+            }
+        }
         a {
             color: $primary;
             &:hover {
