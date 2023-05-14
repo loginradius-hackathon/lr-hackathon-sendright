@@ -16,4 +16,10 @@ SendRight - the ultimate transactional email content generate application, gener
 - Professional sounding transactional emails.
 - Quick email template starter, allows you quickly start with your personalized email template.
 
+### Contribute
+We appreciate all kinds of contributions from anyone, be it finding an issue or adding a feature.
 
+Please check the [contributing guide](CONTRIBUTING.md) to become a contributor.
+
+### License
+For more information on licensing, please refer to [License](LICENSE)
