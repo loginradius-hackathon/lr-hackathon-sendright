@@ -6,11 +6,14 @@ $primary: #2c4bff;
 $white: #fff;
 $base: 16px;
 $bg-light: #f2f2f2;
-$space-md: $base + ($base / 2);
+$space-md: 24px;
 *,
 :before,
 :after {
     box-sizing: border-box;
+}
+img {
+    max-width: 100%;
 }
 body {
     margin: 0;
@@ -34,6 +37,9 @@ h6 {
 h1 {
     font-size: 48px;
     line-height: 1.2;
+    @media (max-width: 767px) {
+        font-size: 36px;
+    }
 }
 header,
 footer,
@@ -102,32 +108,60 @@ header {
 // hero
 section {
     margin-bottom: 120px;
+    @media (max-width: 992px) {
+        margin-bottom: 96px;
+    }
+    @media (max-width: 767px) {
+        margin-bottom: 56px;
+    }
     .header {
         color: $heading;
         max-width: 768px;
         margin-inline: auto;
         text-align: center;
-        font-size: 24px;
         margin-bottom: 56px;
+        @media (max-width: 992px) {
+            margin-bottom: 32px;
+        }
+        @media (max-width: 767px) {
+            text-align: left;
+        }
+
         h2 {
             font-weight: 500;
+            font-size: 36px;
+            @media (max-width: 767px) {
+                font-size: 24px;
+            }
         }
     }
     .grid-33 {
         display: flex;
         align-items: stretch;
         gap: 24px;
+        @media (max-width: 992px) {
+            flex-direction: column;
+        }
         & > div {
             width: calc((100% - 24px) / 3);
+            @media (max-width: 992px) {
+                width: 100%;
+            }
         }
     }
     &.hero {
         padding: 72px 0 0;
+        @media (max-width: 767px) {
+            padding: 36px 0 0;
+        }
         & > div {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 24px;
+            @media (max-width: 992px) {
+                flex-direction: column;
+            }
             .description {
                 h1 {
                     margin: 0 0 32px 0;
@@ -149,17 +183,26 @@ section {
             }
             & > div {
                 width: calc((100% - 24px) / 2);
+                @media (max-width: 992px) {
+                    width: 100%;
+                }
             }
         }
     }
     &.steps {
         background-color: $bg-light;
         padding: 72px 0;
+        @media (max-width: 767px) {
+            padding: 36px 0;
+        }
         .grid-33 {
             .card {
                 background-color: $white;
                 border-radius: 12px;
                 padding: 32px;
+                @media (max-width: 767px) {
+                    padding: 24px;
+                }
                 h3 {
                     margin: 0 0 24px;
                     color: $heading;
@@ -179,6 +222,9 @@ section {
                 background-color: $bg-light;
                 padding: 48px;
                 border-radius: 12px;
+                @media (max-width: 767px) {
+                    padding: 24px;
+                }
                 img {
                     border-radius: 8px;
                     display: block;
@@ -190,12 +236,16 @@ section {
     &.cta {
         background: url(../img/cta-bg.png) no-repeat;
         background-size: cover;
-        min-height: 336px;
+        min-height: 480px;
         padding: 72px 0;
         position: relative;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        @media (max-width: 767px) {
+            min-height: 380px;
+            padding: 36px 0;
+        }
         &:before {
             background: rgba(0, 0, 0, 0.5);
             width: 100%;
@@ -209,10 +259,17 @@ section {
             position: relative;
             z-index: 2;
             color: $white;
-            font-size: 40px;
-            width: 1024px;
+            font-weight: 500;
+            font-size: 36px;
+            max-width: 1024px;
             margin-inline: auto;
             text-align: center;
+            line-height: 1.5;
+            @media (max-width: 767px) {
+                text-align: left;
+                padding: 0 24px;
+                font-size: 24px;
+            }
         }
         .cta {
             position: relative;
@@ -266,6 +323,18 @@ footer {
         justify-content: space-between;
         color: #4f4f4f;
         font-size: 15px;
+        @media (max-width: 767px) {
+            flex-direction: column;
+            align-items: start;
+            & > div {
+                &:first-child {
+                    order: 2;
+                }
+                &:last-child {
+                    order: 1;
+                }
+            }
+        }
         .logo-links p {
             display: flex;
             gap: 8px;
