@@ -9,6 +9,7 @@ const App = () => {
 
   const baseURL = "https://sendright.lrhackathon.com"
 
+  const [templateText, setTemplateText] = useState({ senderName: "ABC Company", recipientName: "recipient", industry: "", templateType: "", language: "", brandLogoURL: "https://apidocs.lrcontent.com/images/loginradius-logo--horizontal-full-colour-on-white_196175e99f5cec6b654.20520541.png", sentiment: "Official", prompt: "", content: "" })
   useEffect(() => {
 
     axios.get(`${baseURL}/api/v1/metadata`).then((response: any) => {
@@ -18,6 +19,7 @@ const App = () => {
       setLanguageOptions(response.data.languages)
       setIndustryOptions(response.data.industries)
       // setMetadataLoading(!response.data.success)
+      setTemplateText((t)=>({...t, industry: response.data.industries[0], templateType: response.data.email_types[0], language: response.data.languages.find((language)=>{return language === "English"})}))
     }).catch((err) => { console.log(err) })
 
     
@@ -49,7 +51,7 @@ const App = () => {
     })
   }
 
-  const [templateText, setTemplateText] = useState({ senderName: "ABC Company", recipientName: "recipient", industry: "", templateType: "", language: "", brandLogoURL: "https://apidocs.lrcontent.com/images/loginradius-logo--horizontal-full-colour-on-white_196175e99f5cec6b654.20520541.png", sentiment: "Official", prompt: "", content: "" })
+  
 
   const [industryOptions, setIndustryOptions] = useState([""])
   const [templateTypeOptions, setTemplateTypeOptions] = useState([""])
@@ -194,7 +196,8 @@ const App = () => {
 
                 setTemplateText({ ...templateText, [e.target.name]: e.target.value });
               }}
-                value={templateText.language}
+                value={languageOptions.find((language)=>{return language === templateText.language})}
+                defaultValue={languageOptions.find((language)=>{return language === "English"})}
               >
                 {languageOptions.map((language: any) => (
                   <option key={language} value={language}>
