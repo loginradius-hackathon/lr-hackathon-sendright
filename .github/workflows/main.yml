@@ -1,0 +1,51 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build Docker image
+        run: |
+          docker build -t sendright:latest .
+      - name: Push Docker image
+        run: |
+          docker tag sendright:latest ${{ env.DOCKER_USERNAME }}/sendright:latest
+          docker push ${{ env.DOCKER_USERNAME }}/sendright:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOSTNAME }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            whoami
+            container_name=sendright-api-${{ github.ref_name }}
+            echo "Creating env file -- "${{ secrets.APP_ENV_FILE }}
+            [ ! -z "${{ secrets.OPEN_AI_SECRET }}" ] && echo -e "OpenAISecret=${{ secrets.OPEN_AI_SECRET }}" >${{ secrets.APP_ENV_FILE }}
+            echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+            docker rm -f $container_name || true
+            docker run -d --name $container_name --env-file ${{ secrets.APP_ENV_FILE }} -p 4000:4000 --restart=always ${{ env.DOCKER_USERNAME }}/sendright:latest
+            rm -f $APP_ENV_FILE
