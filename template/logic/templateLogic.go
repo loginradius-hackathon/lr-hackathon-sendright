@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-var BrTag = []byte("<br/>")
+var NewLineChar = []byte("\n")
 
 type TemplateLogic struct {
 	appError      *appError.AppError
@@ -62,7 +62,7 @@ func (logic *TemplateLogic) BuildTemplate(request *model.BuildTemplateRequest) (
 			emailSubject.Write(fileScanner.Bytes())
 		} else if i > 3 {
 			emailBody.Write(fileScanner.Bytes())
-			emailBody.Write(BrTag)
+			emailBody.Write(NewLineChar)
 		}
 		i++
 	}

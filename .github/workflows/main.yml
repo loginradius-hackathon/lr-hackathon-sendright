@@ -47,5 +47,5 @@ jobs:
             [ ! -z "${{ secrets.OPEN_AI_SECRET }}" ] && echo -e "OpenAISecret=${{ secrets.OPEN_AI_SECRET }}" >${{ secrets.APP_ENV_FILE }}
             echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             docker rm -f $container_name || true
-            docker run -d --name $container_name --env-file ${{ secrets.APP_ENV_FILE }} -p 4000:4000 --restart=always ${{ env.DOCKER_USERNAME }}/sendright:latest
+            docker run --pull=always -d --name $container_name --env-file ${{ secrets.APP_ENV_FILE }} -p 4000:4000 --restart=always ${{ env.DOCKER_USERNAME }}/sendright:latest
             rm -f $APP_ENV_FILE
