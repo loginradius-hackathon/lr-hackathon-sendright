@@ -10,7 +10,22 @@ const App = () => {
   const baseURL = "https://sendright.lrhackathon.com"
 
   const [templateText, setTemplateText] = useState({ senderName: "LoginRadius", recipientName: "Mike", industry: "", templateType: "", language: "", brandLogoURL: "https://apidocs.lrcontent.com/images/loginradius-logo--horizontal-full-colour-on-white_196175e99f5cec6b654.20520541.png", sentiment: "Official", prompt: "", content: "" })
-  const [selectedTemplate, setSelectedTemplate] = useState("template1")
+  const [selectedTemplate, setSelectedTemplate] = useState("Template 1")
+
+  const deliveryToneOptions = ["Formal",
+    "Informal",
+    "Humorous",
+    "Serious",
+    "Optimistic",
+    "Motivating",
+    "Respectful",
+    "Assertive",
+    "Conversational"]
+
+    const templateOptions = [
+      "Template 1",
+      "Template 2"
+    ]
   useEffect(() => {
 
     axios.get(`${baseURL}/api/v1/metadata`).then((response: any) => {
@@ -63,14 +78,15 @@ const App = () => {
   const downloadTxtFile = () => {
     // console.log(templateText.content)
     const element = document.createElement("a");
-    const downloadID = selectedTemplate==='template1'?'downloadable_template1':'downloadable_template2'
+    const downloadID = selectedTemplate==='Template 1'?'downloadable_template1':'downloadable_template2'
     const file = new Blob([document.getElementById(downloadID).innerHTML], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
-    element.download = "email_template.txt";
+    element.download = "email_template.html";
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
   }
   return (
+    
     // <div className={`${currentMode === "Dark" ? "dark" : "light"}`}>
     //   <BrowserRouter>
     //     <div className="container">
@@ -124,6 +140,7 @@ const App = () => {
               <label htmlFor="name" className="text-sm text-gray-700">Sender Name</label>
               <input type="text" id="name" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="senderName" placeholder="Sender name" data-form-type="name" value={templateText.senderName}
                 onChange={(e) => {
+                  console.log(selectedTemplate)
                   setTemplateText({
                     ...templateText,
                     [e.target.name]: e.target.value,
@@ -184,13 +201,21 @@ const App = () => {
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
               <label htmlFor="rname" className="text-sm text-gray-700">Delivery Tone</label>
-              <input type="text" id="rname" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="sentiment" placeholder="DeliveryTone" data-form-type="name" value={templateText.sentiment}
+              <select id="rname" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="sentiment" placeholder="DeliveryTone" data-form-type="name"
                 onChange={(e) => {
                   setTemplateText({
                     ...templateText,
                     [e.target.name]: e.target.value,
                   });
-                }} />
+                }} 
+                value={deliveryToneOptions.find((deliveryTone) => { return deliveryTone === templateText.sentiment })}
+                defaultValue={deliveryToneOptions.find((deliveryTone) => { return deliveryTone === "Formal" })}>
+                  {deliveryToneOptions.map((deliveryTone: any) => (
+                  <option key={deliveryTone} value={deliveryTone}>
+                    {deliveryTone}
+                  </option>
+                  ))}
+                </select>
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
               <label htmlFor="" className="text-sm text-gray-700">Language </label>
@@ -247,15 +272,22 @@ const App = () => {
 
                 setSelectedTemplate(e.target.value)
 
-              }} value={selectedTemplate} defaultValue={"template1"}>
+              }} value={templateOptions.find((template) => { return template === selectedTemplate })}
+              defaultValue={templateOptions.find((template) => { return template === "Template 1" })}>
 
-                <option value="template1 ">Template  1</option>
-                <option value="template2 ">Template  2</option>
+{templateOptions.map((template: any) => (
+                  <option key={template} value={template}>
+                    {template}
+                  </option>
+))}
               </select>
             </div>
+            
           </div>
-          {selectedTemplate === 'template1' ? <div id='downloadable_template1' className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
+          {/* {console.log(selectedTemplate)} */}
+          {selectedTemplate === 'Template 1' ? <div id='downloadable_template1' className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
             <div style={{ backgroundColor: "rgb(249 250 251)", padding: 24 }}>
+
               <center style={{ maxWidth: 600, marginInline: "auto" }}>
                 <table
                   border={0}
@@ -684,7 +716,7 @@ const App = () => {
             <div style={{ backgroundColor: '#F5F7FA', padding: '24px', fontFamily: 'Arial, Helvetica, sans-serif' }}>
               <center style={{ maxWidth: '600px', marginInline: 'auto' }}>
                 <table border={0} cellSpacing="0" cellPadding="0" style={{
-                  borderCollapse: 'collapse', backgroundColor: '#ffffff', boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.16)', textAlign: 'center',
+                  borderCollapse: 'collapse', backgroundColor: '#ffffff', boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.16)', textAlign: 'center' ,
                   borderRadius: '3px'
                 }}>
                   <tr>
@@ -737,7 +769,7 @@ const App = () => {
                     <td>
                       <div style={{ padding: '0 24px 32px' }}>
                         <table border={0} cellSpacing="0" cellPadding="0"
-                          style={{ borderCollapse: 'collapse', lineHeight: '1.5', width: '100%' }}>
+                          style={{ textAlign: 'center', borderCollapse: 'collapse', lineHeight: '1.5', width: '100%' }}>
                           <tr>
                             <td><b style={{ color: '#333333', fontWeight: '600' }}>Best regards,</b></td>
                           </tr>
