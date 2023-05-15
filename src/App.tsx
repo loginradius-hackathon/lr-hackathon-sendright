@@ -320,7 +320,7 @@ const App = () => {
                               margin: "0 0 32px 0"
                             }}
                           >
-                            Thank you for placing your order with SendRIght! We're excited to
+                            Thank you for placing your order with SendRight! We're excited to
                             let you know that your order has been confirmed and is being
                             processed for delivery.
                           </p>
@@ -708,8 +708,7 @@ const App = () => {
                     <td>
                       <b
                         style={{ color: '#333333', fontSize: '16px', fontWeight: '600', padding: '0 24px', margin: '0 0 24px 0', display: 'block' }}>
-                        Dear
-                        {templateText.recipientName},</b>
+                        {templateText.recipientName ? `Hi ${templateText.recipientName},` : ''}</b>
                     </td>
                   </tr>
                   <tr>
@@ -745,7 +744,8 @@ const App = () => {
                           
                           <tr>
                             <td>
-                              <p style={{ fontSize: '15px', margin: '0' }}>{templateText.senderName}</p>
+                              <p style={{ fontSize: '15px', margin: '0' }}>{templateText.senderName ?
+                                      `${templateText.senderName}` : ""}</p>
                             </td>
                           </tr>
                         </table>
