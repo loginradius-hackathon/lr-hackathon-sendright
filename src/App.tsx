@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Navbar} from "./components";
+import { Navbar } from "./components";
 
 import "./App.css";
 
@@ -19,15 +19,15 @@ const App = () => {
       setLanguageOptions(response.data.languages)
       setIndustryOptions(response.data.industries)
       // setMetadataLoading(!response.data.success)
-      setTemplateText((t)=>({...t, industry: response.data.industries[0], templateType: response.data.email_types[0], language: response.data.languages.find((language)=>{return language === "English"})}))
+      setTemplateText((t) => ({ ...t, industry: response.data.industries[0], templateType: response.data.email_types[0], language: response.data.languages.find((language) => { return language === "English" }) }))
     }).catch((err) => { console.log(err) })
 
-    
+
   }, [])
 
   const fetchEmailContent = () => {
     setContentLoading(true)
-    setTemplateText({...templateText, content:""})
+    setTemplateText({ ...templateText, content: "" })
     axios.post(`${baseURL}/api/v1/template/build`, {
 
       template_type: templateText.templateType,
@@ -46,12 +46,12 @@ const App = () => {
       // console.log(response.data.content_text.includes('\n'))
       // let result=response.data.content_text.replaceAll('\n', '"<br/>"')
 
-      setTemplateText({ ...templateText, content: response.data.content_text})
-      
+      setTemplateText({ ...templateText, content: response.data.content_text })
+
     })
   }
 
-  
+
 
   const [industryOptions, setIndustryOptions] = useState([""])
   const [templateTypeOptions, setTemplateTypeOptions] = useState([""])
@@ -107,9 +107,9 @@ const App = () => {
     //     </div>
     //   </BrowserRouter>
     // </div>
-   
+
     <div className="flex flex-col h-screen ">
-       
+
       <Navbar downloadFunc={downloadTxtFile} />
       <div className="main-container flex w-full md:h-screen h-auto flex-col md:flex-row">
         <div className=" flex md:w-3/12 w-full overflow-y-auto md:border-r md:border-solid md:border-gray-300 bg-white md:max-h-[91vh] h-auto p-6">
@@ -146,7 +146,7 @@ const App = () => {
               }}
                 value={templateText.industry}
                 defaultValue={templateText.industry[0]}>
-                  
+
                 {industryOptions.map((industry: any) => (
                   <option key={industry} value={industry}>
                     {industry}
@@ -171,7 +171,7 @@ const App = () => {
               </select>
             </div>
             <div className="form-group flex flex-col gap-1 mb-4">
-              <label htmlFor="rname" className="text-sm text-gray-700">Additional Information</label> 
+              <label htmlFor="rname" className="text-sm text-gray-700">Additional Information</label>
               <input type="text" id="rname" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="prompt" placeholder="Additional Information" data-form-type="name" value={templateText.prompt}
                 onChange={(e) => {
                   setTemplateText({
@@ -196,8 +196,8 @@ const App = () => {
 
                 setTemplateText({ ...templateText, [e.target.name]: e.target.value });
               }}
-                value={languageOptions.find((language)=>{return language === templateText.language})}
-                defaultValue={languageOptions.find((language)=>{return language === "English"})}
+                value={languageOptions.find((language) => { return language === templateText.language })}
+                defaultValue={languageOptions.find((language) => { return language === "English" })}
               >
                 {languageOptions.map((language: any) => (
                   <option key={language} value={language}>
@@ -206,7 +206,7 @@ const App = () => {
                 ))}
               </select>
             </div>
-            <div className="form-group flex flex-col gap-1 mb-4">
+            <div className="form-group flex flex-col gap-1 mb-4 ">
               <label htmlFor="name" className="text-sm text-gray-700">Brand Logo URL</label>
               <input type="text" id="name" className="py-2 px-4 rounded-md border border-solid border-gray-400 text-sm" name="brandLogoURL" placeholder="Brand Logo URL" data-form-type="name" value={templateText.brandLogoURL}
                 onChange={(e) => {
@@ -231,7 +231,7 @@ const App = () => {
                 <span>{templateText.brandColor}</span>
               </div>
             </div> */}
-            <div className="d-flex items-end w-full">
+            <div className="d-flex items-end w-full pb-8">
               <button className="bg-blue-700 py-1 px-4 text-white rounded-md h-10 flex items-center gap-2 font-normal transition hover:bg-blue-600 ml-auto" onClick={fetchEmailContent}>Generate</button>
             </div>
           </div>
@@ -259,7 +259,8 @@ const App = () => {
                     borderCollapse: "collapse",
                     backgroundColor: "#ffffff",
                     boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.16)",
-                    borderRadius: 3
+                    borderRadius: 3,
+                    fontFamily: "Arial, Helvetica, sans-serif"
                   }}
                 >
                   <tbody>
@@ -277,8 +278,8 @@ const App = () => {
                         </div>
                       </td>
                     </tr>
-                    {templateText.content === "" ? contentLoading ? <tr><td><div style={{width:'600px'}} className="text-center">
-                      <div style={{margin: "20px 0 40px 0"}} role="status">
+                    {templateText.content === "" ? contentLoading ? <tr><td><div style={{ width: '600px' }} className="text-center">
+                      <div style={{ margin: "20px 0 40px 0" }} role="status">
                         <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
                           <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
@@ -483,7 +484,7 @@ const App = () => {
                           </div>
                         </td>
                       </tr>
-                    </> : <tr><td><p style={{whiteSpace: "pre-line",padding: "0 24px 32px" }}>{`${templateText.content}`}</p></td></tr>}
+                    </> : <tr><td><p style={{ whiteSpace: "pre-line", padding: "0 24px 32px" }}>{`${templateText.content}`}</p></td></tr>}
                     {/* <tr>
                       <td>
                         <div
