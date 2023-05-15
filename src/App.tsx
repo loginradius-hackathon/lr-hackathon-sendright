@@ -341,265 +341,269 @@ const App = () => {
 
                     </div>
                     {/* {console.log(selectedTemplate)} */}
-                    {selectedTemplate === 'Template 1' ? <div id='downloadable_template1'
-                                                              className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
-                        <div style={{backgroundColor: "rgb(249 250 251)", padding: 24}}>
+                    {selectedTemplate === 'Template 1' ?
+                        <div id='downloadable_template1'
+                             className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
+                            <div style={{backgroundColor: "rgb(249 250 251)", padding: 24}}>
 
-                            <center style={{maxWidth: 600, marginInline: "auto"}}>
-                                <table
-                                    border={0}
-                                    cellSpacing={0}
-                                    cellPadding={0}
-                                    style={{
-                                        borderCollapse: "collapse",
-                                        backgroundColor: "#ffffff",
-                                        boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.16)",
-                                        borderRadius: 3,
-                                        fontFamily: "Arial, Helvetica, sans-serif"
-                                    }}
-                                >
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <div style={{textAlign: "center", padding: "32px 24px 32px"}}>
-                                                <img
-                                                    src={templateText.brandLogoURL ? templateText.brandLogoURL : `${baseURL}/app/default-logo.svg`}
-                                                    style={{display: "block", marginInline: "auto"}}
-                                                    alt="logo"
-                                                    title="logo"
-                                                    width={200}
-                                                />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {templateText.content === "" ? contentLoading ? <tr>
-                                        <td>
-                                            <div style={{width: '600px'}} className="text-center">
-                                                <div style={{margin: "20px 0 40px 0"}} role="status">
-                                                    <svg aria-hidden="true"
-                                                         className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                                                         viewBox="0 0 100 101" fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                            fill="currentColor"/>
-                                                        <path
-                                                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                            fill="currentFill"/>
-                                                    </svg>
-                                                    <span className="sr-only">Loading...</span>
+                                <center style={{maxWidth: 600, marginInline: "auto"}}>
+                                    <table
+                                        border={0}
+                                        cellSpacing={0}
+                                        cellPadding={0}
+                                        style={{
+                                            borderCollapse: "collapse",
+                                            backgroundColor: "#ffffff",
+                                            boxShadow: "0px 0px 4px rgba(0, 0, 0, 0.16)",
+                                            borderRadius: 3,
+                                            fontFamily: "Arial, Helvetica, sans-serif"
+                                        }}
+                                    >
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <div style={{textAlign: "center", padding: "32px 24px 32px"}}>
+                                                    <img
+                                                        src={templateText.brandLogoURL ? templateText.brandLogoURL : `${baseURL}/app/default-logo.svg`}
+                                                        style={{display: "block", marginInline: "auto"}}
+                                                        alt="logo"
+                                                        title="logo"
+                                                        width={200}
+                                                    />
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr> : <>
-                                        <tr>
-                                            <td>
-                                                <b
-                                                    style={{
-                                                        color: "#333333",
-                                                        fontSize: 16,
-                                                        fontWeight: 600,
-                                                        padding: "0 24px",
-                                                        margin: "0 0 24px 0",
-                                                        display: "block"
-                                                    }}
-                                                >
-                                                    {templateText.recipientName ? `Hi ${templateText.recipientName}` : ''}
-                                                </b>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        {templateText.content === "" ? contentLoading ? <tr>
                                             <td>
-                                                <p
-                                                    style={{
-                                                        color: "#4F4F4F",
-                                                        fontSize: 15,
-                                                        padding: "0 24px",
-                                                        lineHeight: "1.5",
-                                                        margin: "0 0 32px 0"
-                                                    }}
-                                                >
-                                                    Thank you for placing your order with SendRight! We're excited to
-                                                    let you know that your order has been confirmed and is being
-                                                    processed for delivery.
-                                                </p>
+                                                <div style={{width: '600px'}} className="text-center">
+                                                    <div style={{margin: "20px 0 40px 0"}} role="status">
+                                                        <svg aria-hidden="true"
+                                                             className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                                             viewBox="0 0 100 101" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                                fill="currentColor"/>
+                                                            <path
+                                                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                                fill="currentFill"/>
+                                                        </svg>
+                                                        <span className="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <b
-                                                    style={{
-                                                        color: "#333333",
-                                                        fontSize: 16,
-                                                        fontWeight: 600,
-                                                        padding: "0 24px",
-                                                        lineHeight: "1.5",
-                                                        display: "block",
-                                                        margin: "0 0 12px 0"
-                                                    }}
-                                                >
-                                                    Here are the details of your order:
-                                                </b>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style={{padding: "0 24px", marginBottom: 32}}>
-                                                    <table
-                                                        border={0}
-                                                        cellSpacing={0}
-                                                        cellPadding={0}
+                                        </tr> : <>
+                                            <tr>
+                                                <td>
+                                                    <b
                                                         style={{
-                                                            borderCollapse: "collapse",
-                                                            fontSize: 15,
-                                                            lineHeight: "1.5"
+                                                            color: "#333333",
+                                                            fontSize: 16,
+                                                            fontWeight: 600,
+                                                            padding: "0 24px",
+                                                            margin: "0 0 24px 0",
+                                                            display: "block"
                                                         }}
                                                     >
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <b
-                                                                    style={{
-                                                                        color: "#4F4F4F",
-                                                                        fontWeight: 600,
-                                                                        margin: "0 16px 0 0"
-                                                                    }}
-                                                                >
-                                                                    Order Number:
-                                                                </b>
-                                                            </td>
-                                                            <td>
-                                                                <p style={{margin: "0 0 4px 0"}}>12abcd34567890</p>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b
-                                                                    style={{
-                                                                        color: "#4F4F4F",
-                                                                        fontWeight: 600,
-                                                                        margin: "0 16px 0 0"
-                                                                    }}
-                                                                >
-                                                                    Order Date:
-                                                                </b>
-                                                            </td>
-                                                            <td>
-                                                                <p style={{margin: "0 0 4px 0"}}>11/05/2023</p>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b
-                                                                    style={{
-                                                                        color: "#4F4F4F",
-                                                                        fontWeight: 600,
-                                                                        margin: "0 16px 0 0"
-                                                                    }}
-                                                                >
-                                                                    Delivery Date:
-                                                                </b>
-                                                            </td>
-                                                            <td>
-                                                                <p style={{margin: "0 0 4px 0"}}>15/05/2023</p>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <b
-                                                                    style={{
-                                                                        color: "#4F4F4F",
-                                                                        fontWeight: 600,
-                                                                        margin: "0 16px 0 0"
-                                                                    }}
-                                                                >
-                                                                    Delivery Address:
-                                                                </b>
-                                                            </td>
-                                                            <td>
-                                                                <p style={{margin: 0}}>A-102, Ajmer Road, Jaipur</p>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p
-                                                    style={{
-                                                        color: "#4F4F4F",
-                                                        fontSize: 15,
-                                                        padding: "0 24px",
-                                                        lineHeight: "1.5",
-                                                        margin: "0 0 32px 0"
-                                                    }}
-                                                >
-                                                    If you have any questions or concerns about your order, please
-                                                    don't hesitate to reach out to our customer service team. You can
-                                                    reply to this email or contact us at{" "}
-                                                    <a href="tel:+91 1234567890" className="text-blue-700">+91
-                                                        1234567890</a>.
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p
-                                                    style={{
-                                                        color: "#4F4F4F",
-                                                        fontSize: 15,
-                                                        padding: "0 24px",
-                                                        lineHeight: "1.5",
-                                                        margin: "0 0 32px 0"
-                                                    }}
-                                                >
-                                                    Thank you for choosing SendRight for your purchase. We appreciate
-                                                    your business and hope you enjoy your order!
-                                                </p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style={{padding: "0 24px 32px"}}>
-                                                    <table
-                                                        border={0}
-                                                        cellSpacing={0}
-                                                        cellPadding={0}
-                                                        style={{borderCollapse: "collapse", lineHeight: "1.5"}}
+                                                        {templateText.recipientName ? `Hi ${templateText.recipientName}` : ''}
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p
+                                                        style={{
+                                                            color: "#4F4F4F",
+                                                            fontSize: 15,
+                                                            padding: "0 24px",
+                                                            lineHeight: "1.5",
+                                                            margin: "0 0 32px 0"
+                                                        }}
                                                     >
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <b style={{color: "#333333", fontWeight: 600}}>
-                                                                    {templateText.senderName ?
-                                                                        "Best Regards," : ""}
-                                                                </b>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <p style={{
-                                                                    fontSize: 15,
-                                                                    margin: 0
-                                                                }}>{templateText.senderName ?
-                                                                    `${templateText.senderName}` : ""}</p>
-                                                            </td>
-                                                        </tr>
+                                                        Thank you for placing your order with SendRight! We're excited
+                                                        to
+                                                        let you know that your order has been confirmed and is being
+                                                        processed for delivery.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b
+                                                        style={{
+                                                            color: "#333333",
+                                                            fontSize: 16,
+                                                            fontWeight: 600,
+                                                            padding: "0 24px",
+                                                            lineHeight: "1.5",
+                                                            display: "block",
+                                                            margin: "0 0 12px 0"
+                                                        }}
+                                                    >
+                                                        Here are the details of your order:
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div style={{padding: "0 24px", marginBottom: 32}}>
+                                                        <table
+                                                            border={0}
+                                                            cellSpacing={0}
+                                                            cellPadding={0}
+                                                            style={{
+                                                                borderCollapse: "collapse",
+                                                                fontSize: 15,
+                                                                lineHeight: "1.5"
+                                                            }}
+                                                        >
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <b
+                                                                        style={{
+                                                                            color: "#4F4F4F",
+                                                                            fontWeight: 600,
+                                                                            margin: "0 16px 0 0"
+                                                                        }}
+                                                                    >
+                                                                        Order Number:
+                                                                    </b>
+                                                                </td>
+                                                                <td>
+                                                                    <p style={{margin: "0 0 4px 0"}}>12abcd34567890</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b
+                                                                        style={{
+                                                                            color: "#4F4F4F",
+                                                                            fontWeight: 600,
+                                                                            margin: "0 16px 0 0"
+                                                                        }}
+                                                                    >
+                                                                        Order Date:
+                                                                    </b>
+                                                                </td>
+                                                                <td>
+                                                                    <p style={{margin: "0 0 4px 0"}}>11/05/2023</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b
+                                                                        style={{
+                                                                            color: "#4F4F4F",
+                                                                            fontWeight: 600,
+                                                                            margin: "0 16px 0 0"
+                                                                        }}
+                                                                    >
+                                                                        Delivery Date:
+                                                                    </b>
+                                                                </td>
+                                                                <td>
+                                                                    <p style={{margin: "0 0 4px 0"}}>15/05/2023</p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <b
+                                                                        style={{
+                                                                            color: "#4F4F4F",
+                                                                            fontWeight: 600,
+                                                                            margin: "0 16px 0 0"
+                                                                        }}
+                                                                    >
+                                                                        Delivery Address:
+                                                                    </b>
+                                                                </td>
+                                                                <td>
+                                                                    <p style={{margin: 0}}>A-102, Ajmer Road, Jaipur</p>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p
+                                                        style={{
+                                                            color: "#4F4F4F",
+                                                            fontSize: 15,
+                                                            padding: "0 24px",
+                                                            lineHeight: "1.5",
+                                                            margin: "0 0 32px 0"
+                                                        }}
+                                                    >
+                                                        If you have any questions or concerns about your order, please
+                                                        don't hesitate to reach out to our customer service team. You
+                                                        can
+                                                        reply to this email or contact us at{" "}
+                                                        <a href="tel:+91 1234567890" className="text-blue-700">+91
+                                                            1234567890</a>.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p
+                                                        style={{
+                                                            color: "#4F4F4F",
+                                                            fontSize: 15,
+                                                            padding: "0 24px",
+                                                            lineHeight: "1.5",
+                                                            margin: "0 0 32px 0"
+                                                        }}
+                                                    >
+                                                        Thank you for choosing SendRight for your purchase. We
+                                                        appreciate
+                                                        your business and hope you enjoy your order!
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div style={{padding: "0 24px 32px"}}>
+                                                        <table
+                                                            border={0}
+                                                            cellSpacing={0}
+                                                            cellPadding={0}
+                                                            style={{borderCollapse: "collapse", lineHeight: "1.5"}}
+                                                        >
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <b style={{color: "#333333", fontWeight: 600}}>
+                                                                        {templateText.senderName ?
+                                                                            "Best Regards," : ""}
+                                                                    </b>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <p style={{
+                                                                        fontSize: 15,
+                                                                        margin: 0
+                                                                    }}>{templateText.senderName ?
+                                                                        `${templateText.senderName}` : ""}</p>
+                                                                </td>
+                                                            </tr>
 
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </> : <tr>
-                                        <td><p style={{
-                                            whiteSpace: "pre-line",
-                                            padding: "0 24px 32px"
-                                        }}>{`${templateText.content}`}</p></td>
-                                    </tr>}
-                                    {/* <tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </> : <tr>
+                                            <td><p style={{
+                                                whiteSpace: "pre-line",
+                                                padding: "0 24px 32px"
+                                            }}>{`${templateText.content}`}</p></td>
+                                        </tr>}
+                                        {/* <tr>
                       <td>
                         <div
                           style={{
@@ -782,144 +786,147 @@ const App = () => {
                         </div>
                       </td>
                     </tr> */}
-                                    </tbody>
-                                </table>
-                            </center>
-                        </div>
-                    </div> : <div id='downloadable_template2'
-                                  className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
-
-
-                        <div style={{
-                            backgroundColor: '#F5F7FA',
-                            padding: '24px',
-                            fontFamily: 'Arial, Helvetica, sans-serif'
-                        }}>
-                            <center style={{maxWidth: '600px', marginInline: 'auto'}}>
-                                <table border={0} cellSpacing="0" cellPadding="0" style={{
-                                    borderCollapse: 'collapse',
-                                    backgroundColor: '#ffffff',
-                                    boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.16)',
-                                    textAlign: 'center',
-                                    borderRadius: '3px'
-                                }}>
-                                    <tr>
-                                        <td>
-                                            <div style={{textAlign: 'center', padding: '32px 24px 32px'}}>
-                                                <img src={templateText.brandLogoURL} width={200}
-                                                     style={{display: 'block', marginInline: 'auto'}} alt="logo"
-                                                     title="logo"/>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {templateText.content === "" ? contentLoading ? <tr>
-                                        <td>
-                                            <div style={{width: '600px'}} className="text-center">
-                                                <div style={{margin: "20px 0 40px 0"}} role="status">
-                                                    <svg aria-hidden="true"
-                                                         className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                                                         viewBox="0 0 100 101" fill="none"
-                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                            fill="currentColor"/>
-                                                        <path
-                                                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                            fill="currentFill"/>
-                                                    </svg>
-                                                    <span className="sr-only">Loading...</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr> : <>
+                                        </tbody>
+                                    </table>
+                                </center>
+                            </div>
+                        </div> :
+                        <div id='downloadable_template2'
+                             className="overflow-y-auto  md:max-h-[83.5vh] h-auto bg-gray-50">
+                            <div style={{
+                                backgroundColor: '#F5F7FA',
+                                padding: '24px',
+                                fontFamily: 'Arial, Helvetica, sans-serif'
+                            }}>
+                                <center style={{maxWidth: '600px', marginInline: 'auto'}}>
+                                    <table border={0} cellSpacing="0" cellPadding="0" style={{
+                                        borderCollapse: 'collapse',
+                                        backgroundColor: '#ffffff',
+                                        boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.16)',
+                                        textAlign: 'center',
+                                        borderRadius: '3px'
+                                    }}>
                                         <tr>
                                             <td>
-                                                <b
-                                                    style={{
-                                                        color: '#333333',
-                                                        fontSize: '16px',
-                                                        fontWeight: '600',
-                                                        padding: '0 24px',
-                                                        margin: '0 0 24px 0',
-                                                        display: 'block'
-                                                    }}>
-                                                    {templateText.recipientName ? `Hi ${templateText.recipientName},` : ''}</b>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p
-                                                    style={{
-                                                        color: '#4F4F4F',
-                                                        fontSize: '15px',
-                                                        padding: '0 24px',
-                                                        lineHeight: '1.5',
-                                                        margin: '0 0 32px 0'
-                                                    }}>
-                                                    Thank you for
-                                                    placing your
-                                                    order with SendRight!
-                                                    We're excited to
-                                                    let you know that your
-                                                    order has been confirmed and is being processed for delivery.</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p
-                                                    style={{
-                                                        color: '#4F4F4F',
-                                                        fontSize: '15px',
-                                                        padding: '0 24px',
-                                                        lineHeight: '1.5',
-                                                        margin: '0 0 32px 0'
-                                                    }}>
-                                                    If you have any questions or concerns about your order, please don't
-                                                    hesitate to reach
-                                                    out to our customer service team. You can reply to this email or
-                                                    contact us at <a
-                                                    href="tel:+91 1234567890">+91 1234567890</a>.</p>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div style={{padding: '0 24px 32px'}}>
-                                                    <table border={0} cellSpacing="0" cellPadding="0"
-                                                           style={{
-                                                               textAlign: 'center',
-                                                               borderCollapse: 'collapse',
-                                                               lineHeight: '1.5',
-                                                               width: '100%'
-                                                           }}>
-                                                        <tr>
-                                                            <td><b style={{color: '#333333', fontWeight: '600'}}>Best
-                                                                regards,</b></td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <p style={{
-                                                                    fontSize: '15px',
-                                                                    margin: '0'
-                                                                }}>{templateText.senderName ?
-                                                                    `${templateText.senderName}` : ""}</p>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
+                                                <div style={{textAlign: 'center', padding: '32px 24px 32px'}}>
+                                                    <img
+                                                        src={templateText.brandLogoURL ? templateText.brandLogoURL : `${baseURL}/app/default-logo.svg`}
+                                                        width={200}
+                                                        style={{display: 'block', marginInline: 'auto'}} alt="logo"
+                                                        title="logo"/>
                                                 </div>
                                             </td>
                                         </tr>
-                                    </> : <tr>
-                                        <td><p style={{
-                                            whiteSpace: "pre-line",
-                                            padding: "0 24px 32px"
-                                        }}>{`${templateText.content}`}</p></td>
-                                    </tr>}
-                                </table>
-                            </center>
-                        </div>
-                    </div>}
+                                        {templateText.content === "" ? contentLoading ? <tr>
+                                            <td>
+                                                <div style={{width: '600px'}} className="text-center">
+                                                    <div style={{margin: "20px 0 40px 0"}} role="status">
+                                                        <svg aria-hidden="true"
+                                                             className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                                             viewBox="0 0 100 101" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                                fill="currentColor"/>
+                                                            <path
+                                                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                                fill="currentFill"/>
+                                                        </svg>
+                                                        <span className="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr> : <>
+                                            <tr>
+                                                <td>
+                                                    <b
+                                                        style={{
+                                                            color: '#333333',
+                                                            fontSize: '16px',
+                                                            fontWeight: '600',
+                                                            padding: '0 24px',
+                                                            margin: '0 0 24px 0',
+                                                            display: 'block'
+                                                        }}>
+                                                        {templateText.recipientName ? `Hi ${templateText.recipientName},` : ''}</b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p
+                                                        style={{
+                                                            color: '#4F4F4F',
+                                                            fontSize: '15px',
+                                                            padding: '0 24px',
+                                                            lineHeight: '1.5',
+                                                            margin: '0 0 32px 0'
+                                                        }}>
+                                                        Thank you for
+                                                        placing your
+                                                        order with SendRight!
+                                                        We're excited to
+                                                        let you know that your
+                                                        order has been confirmed and is being processed for
+                                                        delivery.</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p
+                                                        style={{
+                                                            color: '#4F4F4F',
+                                                            fontSize: '15px',
+                                                            padding: '0 24px',
+                                                            lineHeight: '1.5',
+                                                            margin: '0 0 32px 0'
+                                                        }}>
+                                                        If you have any questions or concerns about your order, please
+                                                        don't
+                                                        hesitate to reach
+                                                        out to our customer service team. You can reply to this email or
+                                                        contact us at <a
+                                                        href="tel:+91 1234567890">+91 1234567890</a>.</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <div style={{padding: '0 24px 32px'}}>
+                                                        <table border={0} cellSpacing="0" cellPadding="0"
+                                                               style={{
+                                                                   textAlign: 'center',
+                                                                   borderCollapse: 'collapse',
+                                                                   lineHeight: '1.5',
+                                                                   width: '100%'
+                                                               }}>
+                                                            <tr>
+                                                                <td><b style={{color: '#333333', fontWeight: '600'}}>Best
+                                                                    regards,</b></td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <p style={{
+                                                                        fontSize: '15px',
+                                                                        margin: '0'
+                                                                    }}>{templateText.senderName ?
+                                                                        `${templateText.senderName}` : ""}</p>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </> : <tr>
+                                            <td><p style={{
+                                                whiteSpace: "pre-line",
+                                                padding: "0 24px 32px"
+                                            }}>{`${templateText.content}`}</p></td>
+                                        </tr>}
+                                    </table>
+                                </center>
+                            </div>
+                        </div>}
 
 
                 </div>
