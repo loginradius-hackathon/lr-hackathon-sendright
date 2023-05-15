@@ -13,7 +13,7 @@ const App = () => {
         industry: "",
         templateType: "",
         language: "",
-        brandLogoURL: `${baseURL}/app/default-logo.svg`,
+        brandLogoURL: "",
         sentiment: "Official",
         prompt: "",
         content: ""
@@ -363,12 +363,11 @@ const App = () => {
                                         <td>
                                             <div style={{textAlign: "center", padding: "32px 24px 32px"}}>
                                                 <img
-                                                    src={templateText.brandLogoURL}
+                                                    src={templateText.brandLogoURL ? templateText.brandLogoURL : `${baseURL}/app/default-logo.svg`}
                                                     style={{display: "block", marginInline: "auto"}}
                                                     alt="logo"
                                                     title="logo"
                                                     width={200}
-
                                                 />
                                             </div>
                                         </td>
