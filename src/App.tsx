@@ -9,7 +9,7 @@ const App = () => {
 
   const baseURL = "https://sendright.lrhackathon.com"
 
-  const [templateText, setTemplateText] = useState({ senderName: "ABC Company", recipientName: "recipient", industry: "", templateType: "", language: "", brandLogoURL: "https://apidocs.lrcontent.com/images/loginradius-logo--horizontal-full-colour-on-white_196175e99f5cec6b654.20520541.png", sentiment: "Official", prompt: "", content: "" })
+  const [templateText, setTemplateText] = useState({ senderName: "LoginRadius", recipientName: "Mike", industry: "", templateType: "", language: "", brandLogoURL: "https://apidocs.lrcontent.com/images/loginradius-logo--horizontal-full-colour-on-white_196175e99f5cec6b654.20520541.png", sentiment: "Official", prompt: "", content: "" })
   const [selectedTemplate, setSelectedTemplate] = useState("template1")
   useEffect(() => {
 
